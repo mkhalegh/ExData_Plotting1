@@ -1,0 +1,11 @@
+setwd("./Documents/R-working-directory/")
+power <- read.table("household_power_consumption.txt", header=T, sep=";", na.string="?")
+D<-as.POSIXct(paste(power$Date,power$Time))
+DF<-transform (power[(D=="2007-02-01")|(D=="2007-02-02"),], D=as.POSIXct(paste(Date,Time)), "%d/%m/%Y %H:%M:%S")
+
+plot3<-plot(DF$D,DF$Sub_metering_1, type="l", xlab="", ylab="Energy sub metering")
+lines(DF$D,DF$Sub_metering_2,col="red")
+lines(DF$D,DF$Sub_metering_3,col="blue")
+legend("topright", col=c("black","red","blue"), c("Sub_metering_1  ","Sub_metering_2  ", "Sub_metering_3  "),lty=c(1,1,1), lwd=c(1,1,1))
+dev.copy(png, file="plot3.png", width=480, height=480)
+dev.off()
